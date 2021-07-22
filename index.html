@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="inputtext">
+    <button onclick="animefetch()" type="button">Search</button>
+    <div id="total">
+
+
+    </div>
+    <div id="duration">
+
+
+    </div>
+
+</body>
+
+<script>
+
+    function animefetch(){
+        
+    
+        document.getElementById("total").innerText = "";
+        document.getElementById("duration").innerText = "";
+        var data = fetch("https://api.jikan.moe/v3/search/anime?q="+document.getElementById("inputtext").value);
+
+
+
+    data
+            .then(function(res){
+
+                return res.json()
+
+            })
+
+            .then(function(resdata){
+                console.log(document.getElementById("inputtext"));
+                console.log(resdata);
+                console.log(resdata.results[0].title);
+                var coname = document.createElement("h1");
+                coname.innerText=resdata.results[0].title;
+                document.getElementById("total").appendChild(coname)
+                var img = document.createElement("img");
+                img.setAttribute("src",resdata.results[0].image_url);
+                document.getElementById("total").appendChild(img); 
+                var boname = document.createElement("p");
+                var startdate = resdata.results[0].start_date;
+                var enddate = resdata.results[0].end_date;
+
+
+                boname.innerText= " Duration : " + startdate.slice(0,10) + " -  " + enddate.slice(0,10) ;
+                
+                document.getElementById("duration").appendChild(boname)
+                var animeType = document.createElement("p");
+                animeType.innerText= " Type : " + resdata.results[0].type;
+                document.getElementById("duration").appendChild(animeType)
+                var imbdScore = document.createElement("p");
+                imbdScore.innerText= " IMBD Score : " + resdata.results[0].score;
+                document.getElementById("duration").appendChild(imbdScore)
+
+        
+          })
+            
+            .catch(function(err){
+            console.log(err)
+            })
+
+   
+        }
+    
+
+
+
+
+</script>
+
+</html>
